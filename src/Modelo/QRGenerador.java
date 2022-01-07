@@ -70,7 +70,7 @@ public String ruta;
             }
         }
         this.ruta=ruta;
-        FileOutputStream qrCode = new FileOutputStream("C:\\Users\\Admin\\Pictures\\WOW\\"+ruta+".png");
+        FileOutputStream qrCode = new FileOutputStream("C:\\Users\\Admin\\Pictures\\Codigos\\Credenciales\\"+ruta+".png");
         ImageIO.write(imagen, formato, qrCode);
         System.out.println("Listo!");
         qrCode.close();
@@ -94,7 +94,7 @@ public String ruta;
             }
         }
         this.ruta=ruta;
-        FileOutputStream qrCode = new FileOutputStream("C:\\Users\\Admin\\Pictures\\WOW\\Libros\\"+ruta+".png");
+        FileOutputStream qrCode = new FileOutputStream("C:\\Users\\Admin\\Pictures\\Codigos\\Libros\\"+ruta+".png");
         ImageIO.write(imagen, formato, qrCode);
         System.out.println("Listo!");
         qrCode.close();

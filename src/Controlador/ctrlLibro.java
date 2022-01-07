@@ -76,7 +76,7 @@ public class ctrlLibro implements ActionListener {
 
                                 es = cones.getLibroPorTituloAutorISBN(es.getIsbn(), 3);
                                 
-                                cones.ActualizarQr(es.getId(), "C:\\Users\\Admin\\Pictures\\WOW\\Libros\\" + q.getRuta() + ".png");
+                                cones.ActualizarQr(es.getId(), "C:\\Users\\Admin\\Pictures\\Codigos\\Libros\\" + q.getRuta() + ".png");
                                 
                                 limpia();
                             } else {
@@ -200,6 +200,7 @@ public class ctrlLibro implements ActionListener {
             ctrlListaLibros ctrl = new ctrlListaLibros(form, con, es, consEs);
             ctrl.iniciar();
             form.setVisible(true);
+            form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
     }
 

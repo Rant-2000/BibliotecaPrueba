@@ -25,8 +25,13 @@ public class ctrlVisitas implements ActionListener {
     ConsultaEstudiante conses;
     formVisitas frm;
 
-    public ctrlVisitas(formVisitas frm) {
+    public ctrlVisitas(formVisitas frm, ConsultaVisita consv, Visita vis, Estudiante es,ConsultaEstudiante conses) {
         this.frm = frm;
+        this.consv=consv;
+        this.vis=vis;
+        this.es=es;
+        this.conses=conses;
+        
     }
 
     public void iniciar() {

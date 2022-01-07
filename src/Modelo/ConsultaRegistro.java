@@ -142,7 +142,33 @@ public class ConsultaRegistro extends Conexion {
                 es.setFechapedido(rs.getDate("fecha_pedido").toString());
                 es.setIdEstudiante(rs.getInt("idEstudiante"));
                 es.setIdLibro(rs.getInt("idLibro"));
-                
+
+                return true;
+            }
+            return false;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            Erro er = new Erro();
+            er.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            er.getError(e.toString());
+            er.setVisible(true);
+            er.setTitle("Ha ocurrido un error!");
+            return false;
+        } finally {
+            con.close();
+        }
+
+    }
+    public boolean BuscarPendiente(Estudiante es) throws SQLException {
+        Connection con = getConnection();
+        try {
+
+            ps = con.prepareStatement("SELECT * FROM registros WHERE idEstudiante=?");
+            ps.setInt(1, es.getId());
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
                 
                 return true;
             }
@@ -162,24 +188,33 @@ public class ConsultaRegistro extends Conexion {
 
     }
     public int VerifDiasPosibles(int dia, int mes, int an) {
-        Calendar ped = Calendar.getInstance();
-        ped.set(an, mes, dia);
-        ped.set(Calendar.HOUR_OF_DAY, 0);
-        ped.set(Calendar.MINUTE, 0);
-        ped.set(Calendar.SECOND, 0);
-
+     
         Calendar hoyes = Calendar.getInstance();
 
         hoyes.set(Calendar.HOUR_OF_DAY, 0);
         hoyes.set(Calendar.MINUTE, 0);
         hoyes.set(Calendar.SECOND, 0);
 
-        long inicio = ped.getTimeInMillis();
-        long fin = hoyes.getTimeInMillis();
-        int dias = (int) ((Math.abs(fin - inicio)) / (1000 * 60 * 60 * 24));
+        
+        System.out.println("An actual en el metodo "+hoyes.get(Calendar.YEAR)+" "+hoyes.get(Calendar.MONTH)+" "+hoyes.get(Calendar.DAY_OF_MONTH));
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date fechaInicial;
+        try {
+            fechaInicial = dateFormat.parse(String.valueOf(hoyes.get(Calendar.YEAR))+"-"+String.valueOf(hoyes.get(Calendar.MONTH))+"-"+String.valueOf(hoyes.get(Calendar.DAY_OF_MONTH)));
+            Date fechaFinal = dateFormat.parse(String.valueOf(an)+"-"+String.valueOf(mes)+"-"+String.valueOf(dia));
+            int diastotal = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / 86400000);
+            System.out.println("Hay " + diastotal + " dias de diferencia");
+            return diastotal;
+        } catch (ParseException ex) {
+            Logger.getLogger(ConsultaRegistro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
         //System.out.println("Cantidad de dias en el metodo: " + dias);
 
-        return dias++;
+        return 0;
     }
 
     public Calendar dateToCalendar(Date date) {

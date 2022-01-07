@@ -85,7 +85,7 @@ public class ctrlEstudiante implements ActionListener {
                             q.QrAlumno(es.getNc(), es.getNomEs() + " " + es.getNc());
 
                             es = cones.getEstudiantePorNombreNc(es.getNc(), 1);
-                            cones.ActualizarQr(es.getId(), "C:\\Users\\Admin\\Pictures\\WOW\\" + q.getRuta() + ".png");
+                            cones.ActualizarQr(es.getId(), "C:\\Users\\Admin\\Pictures\\Codigos\\Credenciales\\" + q.getRuta() + ".png");
                             limpia();
                         } else {
                             JOptionPane.showMessageDialog(null, "Error " + e);
@@ -212,6 +212,7 @@ public class ctrlEstudiante implements ActionListener {
             ctrlListaEstudiantes ctrl = new ctrlListaEstudiantes(form, consEs, con);
             ctrl.iniciar();
             form.setVisible(true);
+            form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
     }
 

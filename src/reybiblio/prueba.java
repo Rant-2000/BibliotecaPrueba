@@ -37,7 +37,14 @@ public class prueba extends Conexion {
     ResultSet rs;
 
     public static void main(String args[]) throws SQLException, ParseException {
-        Visita v = new Visita();
+        Calendar ca1 = Calendar.getInstance();
+        ca1.set(2020, Calendar.JUNE, 27);
+        ca1.setMinimalDaysInFirstWeek(1);
+        int wk = ca1.get(Calendar.WEEK_OF_MONTH);
+        System.out.println("Week of Month :" + wk); 
+        
+        
+        /*Visita v = new Visita();
         ConsultaVisita consv = new ConsultaVisita();
         v.setIdVisita(16);
         v.setIdEstudiante(7);
@@ -45,8 +52,7 @@ public class prueba extends Conexion {
         if (consv.Modificar(v)) {
             System.out.println("Modificado");
         }
-        
-        /*inicio("18710133");
+                 */ /*inicio("18710133");
 
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();

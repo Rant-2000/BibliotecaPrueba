@@ -17,6 +17,9 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -307,10 +310,10 @@ public class ConsultaListaRegistros {
             java.sql.Date sqlDateEntrega = new Date(dateEntrega.getTime());
             ps.setDate(1, sqlDatePedido);
             ps.setDate(2, sqlDateEntrega);
-            
+
             ps.setInt(3, es.getIdEstudiante());
-            ps.setInt(4,es.getIdLibro());
-            ps.setBoolean(5,es.isEstado());
+            ps.setInt(4, es.getIdLibro());
+            ps.setBoolean(5, es.isEstado());
             ps.setInt(6, es.getIdRegistro());
             ps.execute();
             return true;
@@ -327,5 +330,141 @@ public class ConsultaListaRegistros {
             con.close();
         }
 
+    }
+
+    public ArrayList<Registro> getRegistros(int tipo, String dato, int sem) throws SQLException {
+        try{
+        
+            //0 Dia
+            //1 Mes
+            //2 Year
+            //3 Sem
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConnection();
+String sql="";
+            if (tipo==0) {
+                 sql = "SELECT id,fecha_pedido,fecha_entrega,estadoEntregado,idEstudiante,idLibro FROM registros WHERE fecha_pedido= '" + dato + "'";
+            }else{
+                 sql = "SELECT id,fecha_pedido,fecha_entrega,estadoEntregado,idEstudiante,idLibro FROM registros ";
+            }
+           
+            ps = con.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+
+            ArrayList<Registro> Estudiosos = new ArrayList<Registro>();
+
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+            java.util.Date date1 = sdf1.parse(dato);
+            //java.sql.Date sqlDate = new Date(date.getTime());
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date1);
+            System.out.println("Año: " + cal1.get(Calendar.MONTH));
+            int mes = cal1.get(Calendar.MONTH);
+            System.out.println("Mes del parametro "+mes);
+            int anho = cal1.get(Calendar.YEAR);
+            while (rs.next()) {
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                java.util.Date date = sdf.parse(rs.getString("fecha_pedido"));
+                //java.sql.Date sqlDate = new Date(date.getTime());
+                System.out.println("Fecha pedido: "+rs.getString("fecha_pedido"));
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                //System.out.println("Año: " + cal.get(Calendar.MONTH));
+                int mesFecha = cal.get(Calendar.MONTH);
+                System.out.println("Mes del registro "+mesFecha);
+                int anhoFecha = cal.get(Calendar.YEAR);
+                if (tipo == 0 && rs.getString("fecha_pedido").equals(dato)) {
+        
+                    System.out.println("Entro al rs.next del dia ");
+                    Registro provi = new Registro();
+
+                    provi.setFechapedido(rs.getDate("fecha_pedido").toString());
+                    provi.setFechaentrega(rs.getDate("fecha_entrega").toString());
+                    provi.setEstado(rs.getBoolean("estadoEntregado"));
+                    provi.setIdRegistro(rs.getInt("id"));
+                    provi.setIdEstudiante(rs.getInt("idEstudiante"));
+                    provi.setIdLibro(rs.getInt("idLibro"));
+                    Estudiosos.add(provi);
+
+                }
+                if (tipo == 1 && mesFecha == mes) {
+                    
+                    System.out.println("Entro al rs.next del mes");
+                    Registro provi = new Registro();
+
+                    provi.setFechapedido(rs.getDate("fecha_pedido").toString());
+                    provi.setFechaentrega(rs.getDate("fecha_entrega").toString());
+                    provi.setEstado(rs.getBoolean("estadoEntregado"));
+                    provi.setIdRegistro(rs.getInt("id"));
+                    provi.setIdEstudiante(rs.getInt("idEstudiante"));
+                    provi.setIdLibro(rs.getInt("idLibro"));
+                    Estudiosos.add(provi);
+                }
+                if (tipo == 2 && anhoFecha == anho) {
+        
+                    System.out.println("Entro al rs.next ");
+                    Registro provi = new Registro();
+
+                    provi.setFechapedido(rs.getDate("fecha_pedido").toString());
+                    provi.setFechaentrega(rs.getDate("fecha_entrega").toString());
+                    provi.setEstado(rs.getBoolean("estadoEntregado"));
+                    provi.setIdRegistro(rs.getInt("id"));
+                    provi.setIdEstudiante(rs.getInt("idEstudiante"));
+                    provi.setIdLibro(rs.getInt("idLibro"));
+                    Estudiosos.add(provi);
+                }
+                if (tipo == 3 && sem == 0) {
+                    if (mesFecha < 6) {
+        
+                    
+                        Registro provi = new Registro();
+
+                        provi.setFechapedido(rs.getDate("fecha_pedido").toString());
+                        provi.setFechaentrega(rs.getDate("fecha_entrega").toString());
+                        provi.setEstado(rs.getBoolean("estadoEntregado"));
+                        provi.setIdRegistro(rs.getInt("id"));
+                        provi.setIdEstudiante(rs.getInt("idEstudiante"));
+                        provi.setIdLibro(rs.getInt("idLibro"));
+                        Estudiosos.add(provi);
+                    }
+
+                }
+                if (tipo == 3 && sem == 1) {
+                    if (mesFecha >= 6 && mesFecha < 12) {
+        
+                        
+                        Registro provi = new Registro();
+
+                        provi.setFechapedido(rs.getDate("fecha_pedido").toString());
+                        provi.setFechaentrega(rs.getDate("fecha_entrega").toString());
+                        provi.setEstado(rs.getBoolean("estadoEntregado"));
+                        provi.setIdRegistro(rs.getInt("id"));
+                        provi.setIdEstudiante(rs.getInt("idEstudiante"));
+                        provi.setIdLibro(rs.getInt("idLibro"));
+                        Estudiosos.add(provi);
+                    }
+                }
+            }
+
+            return Estudiosos;
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+            Erro er = new Erro();
+            er.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            er.getError(ex.toString());
+            er.setVisible(true);
+            er.setTitle("Ha ocurrido un error!");
+            ex.getStackTrace();
+            return null;
+        } catch (ParseException ex) {
+            Logger.getLogger(ConsultaListaRegistros.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }
